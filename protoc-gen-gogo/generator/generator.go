@@ -22,7 +22,7 @@
 // contributors may be used to endorse or promote products derived from
 // this software without specific prior written permission.
 //
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 // "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
 // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
@@ -2862,8 +2862,10 @@ func (g *Generator) generateGet(mc *msgCtx, protoField *descriptor.FieldDescript
 
 // generateInternalStructFields just adds the XXX_<something> fields to the message struct.
 func (g *Generator) generateInternalStructFields(mc *msgCtx, topLevelFields []topLevelField) {
+
+	//强行添加bson tag TODO:或许有更好的方法
 	if gogoproto.HasUnkeyed(g.file.FileDescriptorProto, mc.message.DescriptorProto) {
-		g.P("XXX_NoUnkeyedLiteral\tstruct{} `json:\"-\"`") // prevent unkeyed struct literals
+		g.P("XXX_NoUnkeyedLiteral\tstruct{} `json:\"-\" bson:\"-\"`") // prevent unkeyed struct literals
 	}
 	if len(mc.message.ExtensionRange) > 0 {
 		if gogoproto.HasExtensionsMap(g.file.FileDescriptorProto, mc.message.DescriptorProto) {
@@ -2871,16 +2873,16 @@ func (g *Generator) generateInternalStructFields(mc *msgCtx, topLevelFields []to
 			if opts := mc.message.Options; opts != nil && opts.GetMessageSetWireFormat() {
 				messageset = "protobuf_messageset:\"1\" "
 			}
-			g.P(g.Pkg["proto"], ".XXX_InternalExtensions `", messageset, "json:\"-\"`")
+			g.P(g.Pkg["proto"], ".XXX_InternalExtensions `", messageset, "json:\"-\" bson:\"-\"`")
 		} else {
-			g.P("XXX_extensions\t\t[]byte `protobuf:\"bytes,0,opt\" json:\"-\"`")
+			g.P("XXX_extensions\t\t[]byte `protobuf:\"bytes,0,opt\" json:\"-\" bson:\"-\"`")
 		}
 	}
 	if gogoproto.HasUnrecognized(g.file.FileDescriptorProto, mc.message.DescriptorProto) {
-		g.P("XXX_unrecognized\t[]byte `json:\"-\"`")
+		g.P("XXX_unrecognized\t[]byte `json:\"-\" bson:\"-\"`")
 	}
 	if gogoproto.HasSizecache(g.file.FileDescriptorProto, mc.message.DescriptorProto) {
-		g.P("XXX_sizecache\tint32 `json:\"-\"`")
+		g.P("XXX_sizecache\tint32 `json:\"-\" bson:\"-\"`")
 	}
 }
 
@@ -3265,20 +3267,28 @@ func (g *Generator) generateMessage(message *Descriptor) {
 		typename, wiretype := g.GoType(message, field)
 		jsonName := *field.Name
 		jsonTag := jsonName + ",omitempty"
+
 		repeatedNativeType := (!field.IsMessage() && !gogoproto.IsCustomType(field) && field.IsRepeated())
 		if !gogoproto.IsNullable(field) && !repeatedNativeType {
 			jsonTag = jsonName
 		}
+
+		//强行添加bson TODO:可能在某个时间会添加更加详细的bson处理
+		bsonTag := fmt.Sprintf(" bson:%q", jsonTag)
+
 		gogoJsonTag := gogoproto.GetJsonTag(field)
 		if gogoJsonTag != nil {
 			jsonTag = *gogoJsonTag
 		}
+
 		gogoMoreTags := gogoproto.GetMoreTags(field)
 		moreTags := ""
 		if gogoMoreTags != nil {
 			moreTags = " " + *gogoMoreTags
 		}
-		tag := fmt.Sprintf("protobuf:%s json:%q%s", g.goTag(message, field, wiretype), jsonTag, moreTags)
+
+		//强行添加bson TODO:可能在某个时间会添加更加详细的bson处理
+		tag := fmt.Sprintf("protobuf:%s json:%q%s%s", g.goTag(message, field, wiretype), jsonTag, bsonTag, moreTags)
 		if *field.Type == descriptor.FieldDescriptorProto_TYPE_MESSAGE && gogoproto.IsEmbed(field) {
 			fieldName = ""
 		}
