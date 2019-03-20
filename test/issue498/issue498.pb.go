@@ -3,14 +3,14 @@
 
 package issue449
 
-import proto "github.com/gogo/protobuf/proto"
+import proto "github.com/akqp2019/protobuf/proto"
 import fmt "fmt"
 import math "math"
-import _ "github.com/gogo/protobuf/gogoproto"
+import _ "github.com/akqp2019/protobuf/gogoproto"
 
 import bytes "bytes"
 
-import github_com_gogo_protobuf_proto "github.com/gogo/protobuf/proto"
+import github_com_gogo_protobuf_proto "github.com/akqp2019/protobuf/proto"
 
 import io "io"
 

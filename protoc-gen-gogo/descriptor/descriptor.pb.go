@@ -5,7 +5,7 @@ package descriptor
 
 import (
 	fmt "fmt"
-	proto "github.com/gogo/protobuf/proto"
+	proto "github.com/akqp2019/protobuf/proto"
 	math "math"
 )
 

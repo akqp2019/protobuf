@@ -7,7 +7,7 @@ import (
 	bytes "bytes"
 	encoding_binary "encoding/binary"
 	fmt "fmt"
-	proto "github.com/gogo/protobuf/proto"
+	proto "github.com/akqp2019/protobuf/proto"
 	io "io"
 	math "math"
 	reflect "reflect"

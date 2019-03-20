@@ -36,7 +36,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gogo/protobuf/proto"
+	"github.com/akqp2019/protobuf/proto"
 )
 
 var tests = []struct {

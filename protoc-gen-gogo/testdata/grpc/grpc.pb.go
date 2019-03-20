@@ -6,7 +6,7 @@ package testing
 import (
 	context "context"
 	fmt "fmt"
-	proto "github.com/gogo/protobuf/proto"
+	proto "github.com/akqp2019/protobuf/proto"
 	grpc "google.golang.org/grpc"
 	math "math"
 )

@@ -1,8 +1,8 @@
 URL="https://raw.githubusercontent.com/google/protobuf/master/src/google/protobuf/"
 
 regenerate:
-	go install github.com/gogo/protobuf/protoc-gen-gogotypes
-	go install github.com/gogo/protobuf/protoc-min-version
+	go install github.com/akqp2019/protobuf/protoc-gen-gogotypes
+	go install github.com/akqp2019/protobuf/protoc-min-version
 
 	protoc-min-version \
 	--version="3.0.0" \
@@ -24,7 +24,7 @@ regenerate:
 	rmdir ../types/google || true
 
 update:
-	go install github.com/gogo/protobuf/gogoreplace
+	go install github.com/akqp2019/protobuf/gogoreplace
 
 	(cd ./google/protobuf && rm descriptor.proto; wget ${URL}/descriptor.proto)
 	# gogoprotobuf requires users to import gogo.proto which imports descriptor.proto

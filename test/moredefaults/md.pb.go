@@ -6,9 +6,9 @@ package moredefaults
 import (
 	bytes "bytes"
 	fmt "fmt"
-	_ "github.com/gogo/protobuf/gogoproto"
-	proto "github.com/gogo/protobuf/proto"
-	example "github.com/gogo/protobuf/test/example"
+	_ "github.com/akqp2019/protobuf/gogoproto"
+	proto "github.com/akqp2019/protobuf/proto"
+	example "github.com/akqp2019/protobuf/test/example"
 	math "math"
 )
 
