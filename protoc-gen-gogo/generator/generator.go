@@ -3279,6 +3279,8 @@ func (g *Generator) generateMessage(message *Descriptor) {
 		gogoJsonTag := gogoproto.GetJsonTag(field)
 		if gogoJsonTag != nil {
 			jsonTag = *gogoJsonTag
+			//暂时让bson的tag使用方式与json的一样(以后有需求再修改)
+			bsonTag = fmt.Sprintf(" bson:%q", *gogoJsonTag)
 		}
 
 		gogoMoreTags := gogoproto.GetMoreTags(field)
